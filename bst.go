@@ -32,18 +32,18 @@ func traverse(root *Tree)  {
   }
 }
 
-func min(tree *Tree) *Tree  {
-  if(tree.left == nil){
-    return tree
+func min(tree **Tree) (*Tree,**Tree)  {
+  if((*tree).left == nil){
+    return *tree,tree
   }
-  return min(tree.left)
+  return min(&(*tree).left)
 }
 
-func max(tree *Tree) *Tree  {
-  if(tree.right == nil){
-    return tree
+func max(tree **Tree) (*Tree,**Tree)  {
+  if((*tree).right == nil){
+    return *tree,tree
   }
-  return max(tree.right)
+  return max(&(*tree).right)
 }
 
 func search(tree **Tree, item int) (*Tree,**Tree) {
@@ -73,7 +73,22 @@ func delete(tree **Tree, item int)  {
   }
 
   if(doomed.left != nil && doomed.right != nil){
+    replacement,replacement_addr := min(&doomed.right)
+    (*doomed_address).data = replacement.data
+    *replacement_addr = nil
+    return
+  }
 
+  if(doomed.left != nil){
+    doomed.data = doomed.left.data
+    doomed.left = nil
+    return
+  }
+
+  if(doomed.right != nil){
+    doomed.data = doomed.right.data
+    doomed.right = nil
+    return
   }
 
 }
@@ -85,8 +100,10 @@ func main()  {
   insert(&root_ptr,9,nil)
   insert(&root_ptr,6,nil)
   insert(&root_ptr,2,nil)
-  insert(&root_ptr,0,nil)
+  insert(&root_ptr,10,nil)
+  insert(&root_ptr,12,nil)
   traverse(root_ptr)
-  delete(&root_ptr,6)
+  delete(&root_ptr,10)
+  fmt.Println("Deleted one item")
   traverse(root_ptr)
 }
