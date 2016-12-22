@@ -1,3 +1,12 @@
+/*
+  This is where things got interesting and heavy. And this is where I learnt
+  the most about using recursion. And most importantly, handling arguments
+  smartly.
+
+  Here I heavily used Go's feature of letting me return multiple
+  values. This worked like synergy, I return the item, as well as its address.
+*/
+
 package main
 
 import "fmt"
@@ -47,7 +56,7 @@ func max(tree **Tree) (*Tree,**Tree)  {
 }
 
 func search(tree **Tree, item int) (*Tree,**Tree) {
-  if(tree == nil){
+  if(*tree == nil){
     return nil,tree
   }
   if((*tree).data == item){
@@ -60,6 +69,15 @@ func search(tree **Tree, item int) (*Tree,**Tree) {
   return search(&(*tree).right,item)
 }
 
+
+/*
+  The deletion in BST was supposed to be a bit messy, but I think
+  that "return value and it's address" idea made this quite clean.
+
+  Conventionally, here I was supposed to have a loop similar to 'insert' function.
+  Rather I modified the already made functions, 'search' and 'min' to return value
+  as well as address for seamless modification, as observed in line 89,95,96.
+*/
 func delete(tree **Tree, item int)  {
   doomed,doomed_address := search(tree,item)
   if(doomed == nil){
