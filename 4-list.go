@@ -66,6 +66,7 @@ func delete(list **Node, item int) {
     pred := predecessor(*list,item)
     if(pred == nil){
       *list = (*doomed).next
+      return 
     }
     (*pred).next = (*doomed).next
   }
